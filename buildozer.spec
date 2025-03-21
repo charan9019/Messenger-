@@ -2,7 +2,9 @@
 title = ChatApp
 package.name = chatapp
 package.domain = com.example
+source.dir = . 
 source.include_exts = py,png,jpg,kv,atlas
+version = 1.0.0  
 requirements = python3,kivy,kivymd,firebase-admin
 android.permissions = INTERNET
 android.api = 31
