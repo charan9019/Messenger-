@@ -6,7 +6,57 @@ on:
       - main
 
 jobs:
+  build:name: Build APK
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
   build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install system dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y zip unzip openjdk-17-jdk libffi-dev libssl-dev \
+              gcc g++ python3-venv python3-pip make curl
+
+      - name: Install Buildozer and dependencies
+        run: |
+          pip install --upgrade pip
+          pip install cython
+          pip install buildozer python-for-android
+
+      - name: Initialize Buildozer
+        run: |
+          buildozer init  # Ensure the .spec file is generated
+
+      - name: Debug: Check installed dependencies
+        run: |
+          buildozer --version
+          python --version
+          pip list
+
+      - name: Build APK
+        run: |
+          buildozer -v android debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: chat-app-apk
+          path: bin/*.apk
     runs-on: ubuntu-latest
 
     steps:
