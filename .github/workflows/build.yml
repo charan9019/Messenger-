@@ -33,7 +33,7 @@ jobs:
           buildozer -v android debug
 
       - name: Upload APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4  # ✅ Fixed issue (updated from v3 to v4)
         with:
           name: chat-app-apk
           path: bin/*.apk
